@@ -1,19 +1,24 @@
-from sqlmodel import SQLModel, create_engine, Session
-from sqlmodel.ext.asyncio.session import AsyncSession, AsyncEngine
-from sqlalchemy.ext.asyncio import create_async_engine
+from sqlmodel import SQLModel, Session, create_engine
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@localhost/ai_wealth_builder")
+# Use synchronous SQLite URL
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./ai_wealth_builder.db")
 
-engine = create_async_engine(DATABASE_URL, echo=True)
+# Create synchronous engine
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False}
+)
 
-async def init_db():
-    async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.create_all)
+# Make init_db synchronous since we're using synchronous SQLite
+def init_db():
+    SQLModel.metadata.create_all(engine)
+    return True  # Return something to indicate success
 
-async def get_session() -> AsyncSession:
-    async with AsyncSession(engine, expire_on_commit=False) as session:
+# Session dependency
+def get_session():
+    with Session(engine) as session:
         yield session

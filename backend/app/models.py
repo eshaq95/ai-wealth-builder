@@ -32,3 +32,20 @@ class Portfolio(PortfolioBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="user.id")
     user: User = Relationship(back_populates="portfolios")
+
+# Add this class
+class PortfolioCreate(PortfolioBase):
+    pass
+
+class Token(SQLModel):
+    access_token: str
+    token_type: str
+
+class Transaction(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    category: str
+    amount: float
+    date: datetime
+    description: str
+    user_id: int = Field(foreign_key="user.id")
+    user: User = Relationship(back_populates="transactions")

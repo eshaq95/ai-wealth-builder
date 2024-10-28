@@ -74,6 +74,7 @@ const Dashboard: React.FC = () => {
         const response = await fetch('http://localhost:8000/api/portfolio', {
           headers: {
             'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           },
         });
 
@@ -84,9 +85,12 @@ const Dashboard: React.FC = () => {
           return;
         }
 
-        if (!response.ok) throw new Error('Failed to fetch portfolio data');
+        if (!response.ok) {
+          throw new Error('Failed to fetch portfolio data');
+        }
 
         const data = await response.json();
+        console.log('Portfolio data:', data); // Add this for debugging
         setPortfolio(data);
       } catch (error) {
         console.error('Error fetching portfolio:', error);

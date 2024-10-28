@@ -1,12 +1,11 @@
-# Core dependencies with specific versions for Python 3.13
+# Core dependencies with compatible versions
 fastapi==0.95.0
 uvicorn==0.21.1
-sqlalchemy==2.0.20
-pydantic==1.10.7  # Changed to older version that doesn't require pydantic-core
+sqlmodel==0.0.8
+sqlalchemy>=1.4.17,<=1.4.41
 python-multipart==0.0.6
 passlib==1.7.4
-python-jose==3.3.0
+python-jose[cryptography]==3.3.0
 bcrypt==4.0.1
 python-dotenv==1.0.0
 email-validator==2.0.0
-typing-extensions==4.5.0
