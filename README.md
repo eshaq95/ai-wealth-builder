@@ -1,6 +1,6 @@
 # AI Wealth Builder
 
-An AI-powered investment and wealth management platform built with Next.js, FastAPI, and Rust.
+An AI-powered investment and wealth management platform built with Next.js and FastAPI.
 
 ## Features
 
@@ -14,7 +14,7 @@ An AI-powered investment and wealth management platform built with Next.js, Fast
 ## Tech Stack
 
 ### Frontend
-- Next.js
+- Next.js 14
 - TypeScript
 - Tailwind CSS
 - Framer Motion
@@ -22,8 +22,7 @@ An AI-powered investment and wealth management platform built with Next.js, Fast
 
 ### Backend
 - FastAPI (Python)
-- Rust (Alternative Backend)
-- PostgreSQL
+- SQLite
 - SQLModel
 - JWT Authentication
 
@@ -32,8 +31,7 @@ An AI-powered investment and wealth management platform built with Next.js, Fast
 ### Prerequisites
 - Node.js 16+
 - Python 3.8+
-- Rust (latest stable)
-- PostgreSQL
+- npm or yarn
 
 ### Installation
 
