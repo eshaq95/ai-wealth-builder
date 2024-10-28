@@ -1,0 +1,21 @@
+{
+  "name": "AI Wealth Builder",
+  "short_name": "AI Wealth",
+  "description": "AI-Powered Investment Management",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdf6e3",
+  "theme_color": "#268bd2",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

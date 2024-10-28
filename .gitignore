@@ -1,0 +1,5 @@
+# Add these lines to your existing .gitignore
+target/debug/
+frontend/node_modules/
+**/node_modules/
+*.pdb
