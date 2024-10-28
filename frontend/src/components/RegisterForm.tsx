@@ -11,19 +11,23 @@ const RegisterForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [riskTolerance, setRiskTolerance] = useState(0.5);
+  const [error, setError] = useState('');
   const router = useRouter();
   const { setIsLoading, showToast } = useApp();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(''); // Clear previous errors
+
     if (password !== confirmPassword) {
+      setError('Passwords do not match');
       showToast({ message: 'Passwords do not match', type: 'error' });
       return;
     }
 
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/users/', {
+      const response = await fetch('http://localhost:8000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -33,17 +37,24 @@ const RegisterForm: React.FC = () => {
         }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
         localStorage.setItem('token', data.access_token);
         showToast({ message: 'Account created successfully!', type: 'success' });
         router.push('/dashboard');
       } else {
-        const errorData = await response.json();
-        showToast({ message: errorData.detail || 'Registration failed', type: 'error' });
+        if (response.status === 400) {
+          setError('Email already registered');
+          showToast({ message: 'Email already registered', type: 'error' });
+        } else {
+          setError(data.detail || 'Registration failed');
+          showToast({ message: data.detail || 'Registration failed', type: 'error' });
+        }
       }
     } catch (error) {
       console.error('Registration error:', error);
+      setError('Network error occurred');
       showToast({ message: 'Network error occurred', type: 'error' });
     } finally {
       setIsLoading(false);
@@ -52,6 +63,15 @@ const RegisterForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <div className="p-3 rounded-lg" style={{ 
+          backgroundColor: colors.red,
+          color: colors.base3,
+        }}>
+          {error}
+        </div>
+      )}
+
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}

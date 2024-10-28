@@ -10,11 +10,13 @@ const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(''); // Add this
   const router = useRouter();
   const { setIsLoading, showToast } = useApp();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(''); // Clear previous errors
     setIsLoading(true);
     
     try {
@@ -28,18 +30,27 @@ const LoginForm: React.FC = () => {
         credentials: 'include',
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
         localStorage.setItem('token', data.access_token);
-        // First navigate
         await router.push('/dashboard');
-        // Then show toast only if needed for errors
       } else {
-        const errorData = await response.json();
-        showToast({ message: errorData.detail || 'Invalid credentials', type: 'error' });
+        // More specific error messages
+        if (response.status === 401) {
+          setError('Invalid email or password');
+          showToast({ message: 'Invalid email or password', type: 'error' });
+        } else if (response.status === 404) {
+          setError('User not found');
+          showToast({ message: 'User not found', type: 'error' });
+        } else {
+          setError(data.detail || 'Login failed');
+          showToast({ message: data.detail || 'Login failed', type: 'error' });
+        }
       }
     } catch (error) {
       console.error('Login error:', error);
+      setError('Network error occurred');
       showToast({ message: 'Network error occurred', type: 'error' });
     } finally {
       setIsLoading(false);
@@ -48,6 +59,15 @@ const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <div className="p-3 rounded-lg" style={{ 
+          backgroundColor: colors.red,
+          color: colors.base3,
+        }}>
+          {error}
+        </div>
+      )}
+      
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
