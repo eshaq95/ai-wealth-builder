@@ -246,7 +246,7 @@ const Dashboard: React.FC = () => {
                               paddingAngle={5}
                               dataKey="value"
                             >
-                              {portfolio.assets.map((entry, index) => (
+                              {portfolio.assets.map((entry: Asset, index: number) => (
                                 <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                               ))}
                             </Pie>
