@@ -1,58 +1,62 @@
-Sure! Here's an updated version of your README with a note stating that the project was fully automated using Cursor, and no manual coding was done:
-
----
-
 # AI Wealth Builder
 
-An AI-powered investment and wealth management platform built with Next.js and FastAPI.
+An AI-powered investment and wealth management dashboard built with Next.js and FastAPI.
 
-> ⚠️ This entire project was **fully automated using [Cursor](https://www.cursor.sh/)** — no code was manually written.
+> ⚠️ This project was generated end-to-end with [Cursor](https://www.cursor.sh/) as an experiment in AI-driven development — no code was written by hand.
 
 ## Features
 
-* 📊 Portfolio Management
-* 💰 Budget Tracking
-* 📈 Investment Analytics
-* 🤖 AI-Powered Recommendations
-* 📱 Responsive Design
-* 🔐 Secure Authentication
+* 📊 Portfolio management
+* 💰 Budget tracking
+* 📈 Investment analytics
+* 🤖 AI-powered recommendations
+* 📱 Responsive design
+* 🔐 JWT authentication
 
-## Tech Stack
+## Tech stack
 
-### Frontend
+**Frontend:** Next.js 14, TypeScript, Tailwind CSS, Framer Motion, Recharts
 
-* Next.js 14
-* TypeScript
-* Tailwind CSS
-* Framer Motion
-* Recharts
+**Backend:** FastAPI (Python), SQLite via SQLAlchemy/SQLModel, JWT authentication
 
-### Backend
+An experimental Rust (Actix Web + PostgreSQL) backend prototype is also included in `src/`.
 
-* FastAPI (Python)
-* SQLite
-* SQLModel
-* JWT Authentication
-
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-* Node.js 16+
+* Node.js 18+
 * Python 3.8+
-* npm or yarn
 
-### Installation
-
-1. Clone the repository:
+### 1. Clone
 
 ```bash
-git clone https://github.com/your-username/ai-wealth-builder.git
+git clone https://github.com/eshaq95/ai-wealth-builder.git
 cd ai-wealth-builder
 ```
 
-2. Install dependencies and run the development servers (instructions as per your setup)...
+### 2. Backend (FastAPI)
 
----
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env            # then set SECRET_KEY to a long random string
+uvicorn main:app --reload       # http://localhost:8000
+```
 
-Would you like me to help fill in any missing installation or usage steps?
+### 3. Frontend (Next.js)
+
+```bash
+cd frontend
+npm install
+npm run dev                     # http://localhost:3000
+```
+
+## Configuration
+
+Settings are read from `.env` files, which are not committed. Copy the templates:
+
+* `backend/.env.example` — `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS`
+* `.env.example` — `DATABASE_URL` for the Rust prototype
